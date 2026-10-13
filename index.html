@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OLM Đáp Án · Ôn Tập Giữa Kì 1 Khối 11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & tokens ─────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:       #0a0e1a;
+  --surface:  #111827;
+  --surf2:    #1a2236;
+  --border:   #243050;
+  --indigo:   #4f46e5;
+  --violet:   #7c3aed;
+  --cyan:     #06b6d4;
+  --green:    #10b981;
+  --green-bg: #052e16;
+  --green-bd: #064e3b;
+  --red:      #ef4444;
+  --red-bg:   #1f0000;
+  --gold:     #f59e0b;
+  --white:    #f8fafc;
+  --muted:    #64748b;
+  --text:     #cbd5e1;
+  --text2:    #94a3b8;
+  padding-top:    env(safe-area-inset-top,0px);
+  padding-bottom: env(safe-area-inset-bottom,0px);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Lexend',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── Nav ────────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;gap:16px;
+  padding:14px 28px;
+  background:rgba(10,14,26,.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-logo{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--indigo),var(--violet));
+  display:grid;place-items:center;
+  font-size:13px;font-weight:800;color:#fff;
+  letter-spacing:-.5px;
+}
+.nav-name{
+  font-size:15px;font-weight:700;color:var(--white);
+}
+.nav-sub{
+  font-size:11px;color:var(--muted);font-weight:400;
+}
+.nav-pill{
+  margin-left:auto;
+  background:linear-gradient(135deg,rgba(79,70,229,.2),rgba(124,58,237,.2));
+  border:1px solid rgba(124,58,237,.4);
+  color:#a78bfa;
+  font-size:10px;font-weight:700;
+  padding:4px 11px;border-radius:99px;
+  letter-spacing:.5px;
+}
+.nav-reload{
+  background:none;border:1px solid var(--border);
+  color:var(--text2);border-radius:7px;
+  padding:6px 14px;font-family:'Lexend',sans-serif;
+  font-size:12px;cursor:pointer;
+  transition:all .15s;
+}
+.nav-reload:hover{border-color:var(--indigo);color:var(--white);}
+
+/* ── Hero ───────────────────────────────────────── */
+.hero{
+  position:relative;
+  padding:60px 28px 48px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%,
+      rgba(79,70,229,.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 50%,
+      rgba(6,182,212,.08) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(79,70,229,.12);
+  border:1px solid rgba(79,70,229,.3);
+  border-radius:99px;
+  padding:5px 14px;
+  font-size:11px;font-weight:600;color:#818cf8;
+  letter-spacing:.5px;margin-bottom:20px;
+}
+.hero-eyebrow span{
+  width:6px;height:6px;border-radius:50%;
+  background:#818cf8;
+  animation:pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-size:clamp(26px,5vw,48px);
+  font-weight:800;
+  line-height:1.1;
+  color:var(--white);
+  letter-spacing:-.5px;
+  margin-bottom:14px;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(90deg,#818cf8,#a78bfa,#06b6d4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-desc{
+  font-size:14px;color:var(--text2);
+  max-width:480px;margin:0 auto 28px;
+  line-height:1.7;font-weight:300;
+}
+.hero-url{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 18px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--text2);
+  max-width:100%;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;
+}
+.hero-url .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--green);flex-shrink:0;
+}
+
+/* ── Status banner ──────────────────────────────── */
+#statusBanner{
+  display:none;
+  margin:0 28px;
+  border-radius:12px;
+  padding:16px 20px;
+  align-items:center;gap:14px;
+  font-size:13px;font-weight:500;
+}
+#statusBanner.loading{
+  display:flex;
+  background:rgba(79,70,229,.1);
+  border:1px solid rgba(79,70,229,.25);
+  color:#a5b4fc;
+}
+#statusBanner.error{
+  display:flex;
+  background:rgba(239,68,68,.08);
+  border:1px solid rgba(239,68,68,.2);
+  color:#fca5a5;
+}
+#statusBanner.success{
+  display:flex;
+  background:rgba(16,185,129,.08);
+  border:1px solid rgba(16,185,129,.2);
+  color:#6ee7b7;
+}
+.spin{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid rgba(165,180,252,.25);
+  border-top-color:#818cf8;
+  animation:spin .7s linear infinite;
+  flex-shrink:0;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Stats bar ──────────────────────────────────── */
+#statsBar{
+  display:none;
+  flex-wrap:wrap;gap:10px;
+  padding:20px 28px;
+}
+#statsBar.visible{display:flex;}
+.stat-chip{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:99px;
+  padding:6px 16px;
+  font-size:12px;font-weight:600;
+  color:var(--text);
+  display:flex;align-items:center;gap:7px;
+}
+.stat-chip .chip-val{color:var(--white);}
+.stat-chip .chip-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--indigo);
+}
+
+/* ── Grid ───────────────────────────────────────── */
+#grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:14px;
+  padding:0 28px 60px;
+}
+
+/* ── Placeholder ────────────────────────────────── */
+.ph{
+  grid-column:1/-1;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:300px;gap:16px;
+  color:var(--muted);
+}
+.ph-icon{font-size:48px;}
+.ph-text{font-size:14px;text-align:center;line-height:1.7;max-width:360px;}
+
+/* ── Question card ──────────────────────────────── */
+.qcard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  animation:fade .35s ease both;
+  transition:border-color .2s,box-shadow .2s;
+}
+.qcard:hover{
+  border-color:rgba(79,70,229,.4);
+  box-shadow:0 0 0 1px rgba(79,70,229,.15),0 4px 24px rgba(0,0,0,.3);
+}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.qcard-top{
+  padding:16px 18px 12px;
+  display:flex;gap:13px;align-items:flex-start;
+  border-bottom:1px solid var(--border);
+}
+.qnum{
+  min-width:32px;height:32px;
+  background:linear-gradient(135deg,var(--indigo),var(--violet));
+  border-radius:8px;
+  display:grid;place-items:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;font-weight:700;color:#fff;
+  flex-shrink:0;margin-top:1px;
+}
+.qtext{
+  font-size:13px;font-weight:500;
+  line-height:1.6;color:var(--white);
+}
+
+/* options */
+.opts{
+  padding:12px 18px 14px;
+  display:flex;flex-direction:column;gap:7px;
+  flex:1;
+}
+.opt{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 11px;border-radius:9px;
+  font-size:12px;font-weight:400;
+  border:1px solid transparent;
+  transition:all .15s;
+  cursor:default;
+}
+.opt.correct{
+  background:rgba(16,185,129,.12);
+  border-color:rgba(16,185,129,.35);
+  color:#6ee7b7;font-weight:600;
+}
+.opt.wrong{
+  color:var(--muted);
+}
+.opt-letter{
+  min-width:22px;height:22px;border-radius:5px;
+  display:grid;place-items:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:700;flex-shrink:0;
+}
+.opt.correct .opt-letter{background:var(--green);color:#fff;}
+.opt.wrong   .opt-letter{background:var(--surf2);color:var(--muted);}
+.tick{margin-left:auto;font-size:14px;flex-shrink:0;}
+
+/* short / tf */
+.ans-block{
+  padding:12px 18px 14px;
+}
+.ans-label{
+  font-size:10px;font-weight:700;color:var(--muted);
+  letter-spacing:.6px;margin-bottom:6px;
+}
+.ans-val{
+  display:inline-block;
+  background:rgba(16,185,129,.1);
+  border:1px solid rgba(16,185,129,.3);
+  border-radius:8px;padding:7px 16px;
+  font-size:13px;font-weight:700;color:#6ee7b7;
+}
+
+/* explain */
+.explain{
+  margin:0 18px 14px;padding:10px 12px;
+  background:var(--surf2);border-radius:8px;
+  font-size:11px;color:var(--text2);line-height:1.6;
+  border-left:3px solid var(--indigo);
+}
+.explain strong{color:var(--text);}
+
+/* ── Type badge ─────────────────────────────────── */
+.type-badge{
+  font-size:9px;font-weight:700;letter-spacing:.5px;
+  padding:2px 8px;border-radius:99px;
+  text-transform:uppercase;
+}
+.badge-mc {background:rgba(79,70,229,.15);color:#818cf8;}
+.badge-tf {background:rgba(6,182,212,.1);color:#67e8f9;}
+.badge-sa {background:rgba(245,158,11,.1);color:#fcd34d;}
+
+/* ── Footer ─────────────────────────────────────── */
+footer{
+  text-align:center;padding:24px;
+  font-size:11px;color:var(--muted);
+  border-top:1px solid var(--border);
+}
+
+@media(max-width:640px){
+  nav{padding:12px 16px;}
+  .hero{padding:40px 16px 32px;}
+  #grid{grid-template-columns:1fr;padding:0 16px 48px;}
+  #statusBanner,#statsBar{margin:0 16px;}
+  #statsBar{padding:16px 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- v2 website redesign -->
+<!-- Nav -->
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo">OLM</div>
+    <div>
+      <div class="nav-name">OLM Đáp Án</div>
+      <div class="nav-sub">Trích xuất tự động · AI-powered</div>
+    </div>
+  </a>
+  <span class="nav-pill">LIVE AI</span>
+  <button class="nav-reload" onclick="runFetch()">↺ Tải lại</button>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span></span>Đang kết nối với AI
+  </div>
+  <h1>Ôn Tập &amp; Kiểm Tra<br><em>Giữa Kì 1 · Khối 11</em></h1>
+  <p class="hero-desc">
+    AI tự động tìm kiếm &amp; trích xuất câu hỏi từ OLM.vn, hiển thị đáp án đúng cho từng câu.
+  </p>
+  <div class="hero-url">
+    <span class="dot"></span>
+    <span id="urlDisplay">https://olm.vn/chu-de/on-tap-kiem-tra-giua-ki-1-khoi-11-nam-2026-2027-5217980936</span>
+  </div>
+</section>
+
+<!-- Status -->
+<div id="statusBanner">
+  <div class="spin" id="spinEl"></div>
+  <span id="statusMsg">Đang khởi tạo...</span>
+</div>
+
+<!-- Stats -->
+<div id="statsBar" class="visible" style="display:none">
+  <div class="stat-chip"><span class="chip-dot"></span>Tổng câu: <span class="chip-val" id="totalQ">—</span></div>
+  <div class="stat-chip"><span class="chip-dot" style="background:var(--green)"></span>Môn: <span class="chip-val" id="subjectS">—</span></div>
+  <div class="stat-chip"><span class="chip-dot" style="background:var(--cyan)"></span>Lớp: <span class="chip-val" id="gradeS">—</span></div>
+</div>
+
+<!-- Grid -->
+<div id="grid">
+  <div class="ph">
+    <div class="ph-icon">🔍</div>
+    <p class="ph-text">AI đang tìm kiếm đề bài…<br>Vui lòng chờ trong giây lát.</p>
+  </div>
+</div>
+
+<footer>OLM Đáp Án · Powered by Claude AI · Dữ liệu từ olm.vn &amp; nguồn công khai</footer>
+
+<script>
+const TARGET_URL =
+  'https://olm.vn/chu-de/on-tap-kiem-tra-giua-ki-1-khoi-11-nam-2026-2027-5217980936?i_c=118948720121';
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+function esc(s){
+  return String(s||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function setStatus(msg, type='loading'){
+  const b=$('statusBanner');
+  b.className='';
+  b.classList.add('status-banner', type);
+  b.style.display='flex';
+  b.className=type;
+  $('spinEl').style.display= type==='loading'?'':'none';
+  $('statusMsg').textContent=msg;
+}
+function hideStatus(){ $('statusBanner').style.display='none'; }
+
+// ── render ───────────────────────────────────────────────────────────────────
+function renderQuiz(data){
+  const qs = data.questions||[];
+  const grid = $('grid');
+  grid.innerHTML='';
+
+  if(!qs.length){
+    grid.innerHTML=`<div class="ph">
+      <div class="ph-icon">😕</div>
+      <p class="ph-text">Không tìm thấy câu hỏi. Thử <button class="nav-reload" style="margin-top:8px" onclick="runFetch()">↺ tải lại</button></p>
+    </div>`;
+    return;
+  }
+
+  // stats
+  $('totalQ').textContent = qs.length;
+  $('subjectS').textContent = data.subject||'Toán';
+  $('gradeS').textContent   = data.grade||'11';
+  $('statsBar').style.display='flex';
+  $('statsBar').className='visible';
+
+  qs.forEach((q, i)=>{
+    const card = document.createElement('div');
+    card.className='qcard';
+    card.style.animationDelay=`${i*.03}s`;
+
+    // type badge
+    const typeMap={
+      multiple_choice:['MC','badge-mc'],
+      true_false:['Đ/S','badge-tf'],
+      short_answer:['Điền','badge-sa']
+    };
+    const [bl, bc] = typeMap[q.type]||['?','badge-mc'];
+
+    // header
+    let inner = `
+      <div class="qcard-top">
+        <div class="qnum">${q.id||i+1}</div>
+        <div>
+          <div class="qtext">${esc(q.text||'')}</div>
+          <span class="type-badge ${bc}" style="margin-top:6px;display:inline-block">${bl}</span>
+        </div>
+      </div>`;
+
+    // body
+    if(q.type==='multiple_choice' && Array.isArray(q.options)){
+      const opts = q.options.map(o=>{
+        const ok = o.letter===q.correct;
+        return `<div class="opt ${ok?'correct':'wrong'}">
+          <span class="opt-letter">${esc(o.letter)}</span>
+          <span>${esc(o.text)}</span>
+          ${ok?'<span class="tick">✓</span>':''}
+        </div>`;
+      }).join('');
+      inner += `<div class="opts">${opts}</div>`;
+    } else {
+      inner += `<div class="ans-block">
+        <div class="ans-label">ĐÁP ÁN ĐÚNG</div>
+        <div class="ans-val">${esc(q.correct||'')}</div>
+      </div>`;
+    }
+
+    if(q.explanation){
+      inner += `<div class="explain"><strong>Giải:</strong> ${esc(q.explanation)}</div>`;
+    }
+
+    card.innerHTML=inner;
+    grid.appendChild(card);
+  });
+}
+
+// ── fetch ─────────────────────────────────────────────────────────────────────
+async function runFetch(){
+  $('grid').innerHTML=`<div class="ph"><div class="ph-icon">🔍</div>
+    <p class="ph-text">AI đang tìm kiếm…</p></div>`;
+  $('statsBar').style.display='none';
+  setStatus('AI đang tìm kiếm đề bài trên web…','loading');
+
+  const sys=`Bạn là trợ lý trích xuất câu hỏi và đáp án từ đề thi tiếng Việt.
+Nhiệm vụ: Tìm kiếm toàn bộ câu hỏi của đề thi này trên web và trả về JSON THUẦN (không markdown, không backtick).
+
+Định dạng JSON bắt buộc:
+{
+  "title":"...",
+  "subject":"Toán",
+  "grade":"11",
+  "questions":[
+    {
+      "id":1,
+      "type":"multiple_choice",
+      "text":"Nội dung câu hỏi",
+      "options":[
+        {"letter":"A","text":"..."},
+        {"letter":"B","text":"..."},
+        {"letter":"C","text":"..."},
+        {"letter":"D","text":"..."}
+      ],
+      "correct":"B",
+      "explanation":"Lý do ngắn gọn (tuỳ chọn)"
+    }
+  ]
+}
+Loại câu: multiple_choice (options+correct=chữ cái), true_false (correct="Đúng"/"Sai"), short_answer (correct=giá trị).
+CHỈ TRẢ VỀ JSON THUẦN. Không có gì khác.`;
+
+  const usr=`Tìm và trích xuất TẤT CẢ câu hỏi + đáp án đúng từ: ${TARGET_URL}
+Dùng web_search để lấy nội dung đề. JSON thuần, không markdown.`;
+
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:4096,
+        system:sys,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:usr}]
+      })
+    });
+
+    if(!resp.ok){
+      const e=await resp.json().catch(()=>({}));
+      throw new Error(`API ${resp.status}: ${e.error?.message||'lỗi không xác định'}`);
+    }
+
+    const d=await resp.json();
+    setStatus('Đang xử lý dữ liệu…','loading');
+
+    const raw=d.content.map(b=>b.type==='text'?b.text:'').join('\n').trim();
+
+    let quiz;
+    try{
+      const clean=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+      const m=clean.match(/\{[\s\S]*\}/);
+      if(!m)throw new Error('Không có JSON');
+      quiz=JSON.parse(m[0]);
+    }catch(pe){
+      throw new Error('Không đọc được dữ liệu: '+pe.message);
+    }
+
+    renderQuiz(quiz);
+    setStatus(`✓ Đã tải ${(quiz.questions||[]).length} câu hỏi thành công`,'success');
+    setTimeout(hideStatus,3000);
+
+  }catch(err){
+    setStatus('⚠ '+err.message,'error');
+    $('grid').innerHTML=`<div class="ph">
+      <div class="ph-icon">😵</div>
+      <p class="ph-text">${esc(err.message)}<br><br>
+        <button class="nav-reload" onclick="runFetch()">↺ Thử lại</button>
+      </p></div>`;
+  }
+}
+
+// auto-run
+runFetch();
+</script>
+</body>
+</html>
