@@ -2,582 +2,476 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>OLM Đáp Án · Ôn Tập Giữa Kì 1 Khối 11</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web Extractor — Copy HTML + URLs</title>
 <style>
-/* ── Reset & tokens ─────────────────────────────── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:       #0a0e1a;
-  --surface:  #111827;
-  --surf2:    #1a2236;
-  --border:   #243050;
-  --indigo:   #4f46e5;
-  --violet:   #7c3aed;
-  --cyan:     #06b6d4;
-  --green:    #10b981;
-  --green-bg: #052e16;
-  --green-bd: #064e3b;
-  --red:      #ef4444;
-  --red-bg:   #1f0000;
-  --gold:     #f59e0b;
-  --white:    #f8fafc;
-  --muted:    #64748b;
-  --text:     #cbd5e1;
-  --text2:    #94a3b8;
-  padding-top:    env(safe-area-inset-top,0px);
-  padding-bottom: env(safe-area-inset-bottom,0px);
-}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Lexend',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* ── Nav ────────────────────────────────────────── */
-nav{
-  position:sticky;top:0;z-index:200;
-  display:flex;align-items:center;gap:16px;
-  padding:14px 28px;
-  background:rgba(10,14,26,.85);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-}
-.nav-brand{
-  display:flex;align-items:center;gap:10px;
-  text-decoration:none;
-}
-.nav-logo{
-  width:32px;height:32px;border-radius:8px;
-  background:linear-gradient(135deg,var(--indigo),var(--violet));
-  display:grid;place-items:center;
-  font-size:13px;font-weight:800;color:#fff;
-  letter-spacing:-.5px;
-}
-.nav-name{
-  font-size:15px;font-weight:700;color:var(--white);
-}
-.nav-sub{
-  font-size:11px;color:var(--muted);font-weight:400;
-}
-.nav-pill{
-  margin-left:auto;
-  background:linear-gradient(135deg,rgba(79,70,229,.2),rgba(124,58,237,.2));
-  border:1px solid rgba(124,58,237,.4);
-  color:#a78bfa;
-  font-size:10px;font-weight:700;
-  padding:4px 11px;border-radius:99px;
-  letter-spacing:.5px;
-}
-.nav-reload{
-  background:none;border:1px solid var(--border);
-  color:var(--text2);border-radius:7px;
-  padding:6px 14px;font-family:'Lexend',sans-serif;
-  font-size:12px;cursor:pointer;
-  transition:all .15s;
-}
-.nav-reload:hover{border-color:var(--indigo);color:var(--white);}
-
-/* ── Hero ───────────────────────────────────────── */
-.hero{
-  position:relative;
-  padding:60px 28px 48px;
-  text-align:center;
-  overflow:hidden;
-}
-.hero::before{
-  content:'';
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 0%,
-      rgba(79,70,229,.18) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 80% 50%,
-      rgba(6,182,212,.08) 0%, transparent 60%);
-  pointer-events:none;
-}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:7px;
-  background:rgba(79,70,229,.12);
-  border:1px solid rgba(79,70,229,.3);
-  border-radius:99px;
-  padding:5px 14px;
-  font-size:11px;font-weight:600;color:#818cf8;
-  letter-spacing:.5px;margin-bottom:20px;
-}
-.hero-eyebrow span{
-  width:6px;height:6px;border-radius:50%;
-  background:#818cf8;
-  animation:pulse 1.8s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{
-  font-size:clamp(26px,5vw,48px);
-  font-weight:800;
-  line-height:1.1;
-  color:var(--white);
-  letter-spacing:-.5px;
-  margin-bottom:14px;
-}
-.hero h1 em{
-  font-style:normal;
-  background:linear-gradient(90deg,#818cf8,#a78bfa,#06b6d4);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.hero-desc{
-  font-size:14px;color:var(--text2);
-  max-width:480px;margin:0 auto 28px;
-  line-height:1.7;font-weight:300;
-}
-.hero-url{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:10px 18px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;color:var(--text2);
-  max-width:100%;overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap;
-}
-.hero-url .dot{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--green);flex-shrink:0;
-}
-
-/* ── Status banner ──────────────────────────────── */
-#statusBanner{
-  display:none;
-  margin:0 28px;
-  border-radius:12px;
-  padding:16px 20px;
-  align-items:center;gap:14px;
-  font-size:13px;font-weight:500;
-}
-#statusBanner.loading{
-  display:flex;
-  background:rgba(79,70,229,.1);
-  border:1px solid rgba(79,70,229,.25);
-  color:#a5b4fc;
-}
-#statusBanner.error{
-  display:flex;
-  background:rgba(239,68,68,.08);
-  border:1px solid rgba(239,68,68,.2);
-  color:#fca5a5;
-}
-#statusBanner.success{
-  display:flex;
-  background:rgba(16,185,129,.08);
-  border:1px solid rgba(16,185,129,.2);
-  color:#6ee7b7;
-}
-.spin{
-  width:18px;height:18px;border-radius:50%;
-  border:2px solid rgba(165,180,252,.25);
-  border-top-color:#818cf8;
-  animation:spin .7s linear infinite;
-  flex-shrink:0;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── Stats bar ──────────────────────────────────── */
-#statsBar{
-  display:none;
-  flex-wrap:wrap;gap:10px;
-  padding:20px 28px;
-}
-#statsBar.visible{display:flex;}
-.stat-chip{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:99px;
-  padding:6px 16px;
-  font-size:12px;font-weight:600;
-  color:var(--text);
-  display:flex;align-items:center;gap:7px;
-}
-.stat-chip .chip-val{color:var(--white);}
-.stat-chip .chip-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--indigo);
-}
-
-/* ── Grid ───────────────────────────────────────── */
-#grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
-  gap:14px;
-  padding:0 28px 60px;
-}
-
-/* ── Placeholder ────────────────────────────────── */
-.ph{
-  grid-column:1/-1;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  min-height:300px;gap:16px;
-  color:var(--muted);
-}
-.ph-icon{font-size:48px;}
-.ph-text{font-size:14px;text-align:center;line-height:1.7;max-width:360px;}
-
-/* ── Question card ──────────────────────────────── */
-.qcard{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  display:flex;flex-direction:column;
-  animation:fade .35s ease both;
-  transition:border-color .2s,box-shadow .2s;
-}
-.qcard:hover{
-  border-color:rgba(79,70,229,.4);
-  box-shadow:0 0 0 1px rgba(79,70,229,.15),0 4px 24px rgba(0,0,0,.3);
-}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-
-.qcard-top{
-  padding:16px 18px 12px;
-  display:flex;gap:13px;align-items:flex-start;
-  border-bottom:1px solid var(--border);
-}
-.qnum{
-  min-width:32px;height:32px;
-  background:linear-gradient(135deg,var(--indigo),var(--violet));
-  border-radius:8px;
-  display:grid;place-items:center;
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;font-weight:700;color:#fff;
-  flex-shrink:0;margin-top:1px;
-}
-.qtext{
-  font-size:13px;font-weight:500;
-  line-height:1.6;color:var(--white);
-}
-
-/* options */
-.opts{
-  padding:12px 18px 14px;
-  display:flex;flex-direction:column;gap:7px;
-  flex:1;
-}
-.opt{
-  display:flex;align-items:center;gap:10px;
-  padding:8px 11px;border-radius:9px;
-  font-size:12px;font-weight:400;
-  border:1px solid transparent;
-  transition:all .15s;
-  cursor:default;
-}
-.opt.correct{
-  background:rgba(16,185,129,.12);
-  border-color:rgba(16,185,129,.35);
-  color:#6ee7b7;font-weight:600;
-}
-.opt.wrong{
-  color:var(--muted);
-}
-.opt-letter{
-  min-width:22px;height:22px;border-radius:5px;
-  display:grid;place-items:center;
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;font-weight:700;flex-shrink:0;
-}
-.opt.correct .opt-letter{background:var(--green);color:#fff;}
-.opt.wrong   .opt-letter{background:var(--surf2);color:var(--muted);}
-.tick{margin-left:auto;font-size:14px;flex-shrink:0;}
-
-/* short / tf */
-.ans-block{
-  padding:12px 18px 14px;
-}
-.ans-label{
-  font-size:10px;font-weight:700;color:var(--muted);
-  letter-spacing:.6px;margin-bottom:6px;
-}
-.ans-val{
-  display:inline-block;
-  background:rgba(16,185,129,.1);
-  border:1px solid rgba(16,185,129,.3);
-  border-radius:8px;padding:7px 16px;
-  font-size:13px;font-weight:700;color:#6ee7b7;
-}
-
-/* explain */
-.explain{
-  margin:0 18px 14px;padding:10px 12px;
-  background:var(--surf2);border-radius:8px;
-  font-size:11px;color:var(--text2);line-height:1.6;
-  border-left:3px solid var(--indigo);
-}
-.explain strong{color:var(--text);}
-
-/* ── Type badge ─────────────────────────────────── */
-.type-badge{
-  font-size:9px;font-weight:700;letter-spacing:.5px;
-  padding:2px 8px;border-radius:99px;
-  text-transform:uppercase;
-}
-.badge-mc {background:rgba(79,70,229,.15);color:#818cf8;}
-.badge-tf {background:rgba(6,182,212,.1);color:#67e8f9;}
-.badge-sa {background:rgba(245,158,11,.1);color:#fcd34d;}
-
-/* ── Footer ─────────────────────────────────────── */
-footer{
-  text-align:center;padding:24px;
-  font-size:11px;color:var(--muted);
-  border-top:1px solid var(--border);
-}
-
-@media(max-width:640px){
-  nav{padding:12px 16px;}
-  .hero{padding:40px 16px 32px;}
-  #grid{grid-template-columns:1fr;padding:0 16px 48px;}
-  #statusBanner,#statsBar{margin:0 16px;}
-  #statsBar{padding:16px 16px;}
-}
+  :root{--bg:#0d1117;--panel:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--accent:#58a6ff;--ok:#3fb950;--warn:#f0883e;--err:#f85149}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  header{background:var(--panel);border-bottom:1px solid var(--border);padding:16px 20px}
+  h1{margin:0 0 4px;font-size:18px;font-weight:600}
+  .subtitle{color:var(--muted);font-size:13px}
+  main{padding:20px;max-width:1400px;margin:0 auto}
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px}
+  .row{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .row>*{flex:1;min-width:0}
+  .row>.shrink{flex:0 0 auto}
+  input,select,textarea{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:6px;font-size:14px;font-family:inherit;outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(88,166,255,.15)}
+  button{background:var(--accent);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;transition:filter .15s}
+  button:hover{filter:brightness(1.1)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  button.secondary{background:var(--border);color:var(--text)}
+  button.secondary:hover{background:#40464e;filter:none}
+  .modes{display:flex;gap:8px;margin-bottom:12px}
+  .mode-tab{padding:6px 14px;background:var(--bg);border:1px solid var(--border);color:var(--muted);border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit}
+  .mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  #status{padding:12px;border-radius:6px;margin-bottom:16px;font-size:14px;display:none}
+  #status.show{display:block}
+  #status.info{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.3);color:var(--accent)}
+  #status.success{background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);color:var(--ok)}
+  #status.error{background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);color:var(--err)}
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto}
+  .tab{padding:10px 16px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px;font-family:inherit;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab:hover{color:var(--text)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab .count{display:inline-block;background:var(--border);color:var(--muted);padding:1px 7px;border-radius:10px;font-size:11px;margin-left:6px}
+  .tab.active .count{background:rgba(88,166,255,.2);color:var(--accent)}
+  .actions{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  pre{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:16px;margin:0;overflow:auto;max-height:600px;font-family:'JetBrains Mono','Fira Code',Consolas,monospace;font-size:12.5px;line-height:1.6;white-space:pre;color:var(--text)}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+  .stat-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px}
+  .stat-card .label{color:var(--muted);font-size:12px;margin-bottom:4px}
+  .stat-card .value{font-size:22px;font-weight:600;color:var(--accent)}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  textarea#pasteArea{width:100%;min-height:200px;font-family:monospace;font-size:12px;resize:vertical}
+  .hint{color:var(--muted);font-size:12px;margin-top:8px;line-height:1.5}
+  .hidden{display:none!important}
+  .note{background:rgba(240,136,62,.1);border:1px solid rgba(240,136,62,.3);border-radius:6px;padding:10px 12px;margin-bottom:16px;font-size:12.5px;color:var(--warn)}
 </style>
 </head>
 <body>
+<header>
+  <h1>🔎 Web Extractor</h1>
+  <div class="subtitle">Nhập URL → lấy HTML + tất cả đường dẫn JS / CSS / Image / Font / Anchor</div>
+</header>
 
-<!-- v2 website redesign -->
-<!-- Nav -->
-<nav>
-  <a class="nav-brand" href="#">
-    <div class="nav-logo">OLM</div>
-    <div>
-      <div class="nav-name">OLM Đáp Án</div>
-      <div class="nav-sub">Trích xuất tự động · AI-powered</div>
+<main>
+  <div class="panel">
+    <div class="modes">
+      <button class="mode-tab active" data-mode="url">🌐 Từ URL</button>
+      <button class="mode-tab" data-mode="paste">📋 Paste HTML</button>
     </div>
-  </a>
-  <span class="nav-pill">LIVE AI</span>
-  <button class="nav-reload" onclick="runFetch()">↺ Tải lại</button>
-</nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-eyebrow">
-    <span></span>Đang kết nối với AI
+    <div id="modeUrl">
+      <div class="row">
+        <input type="url" id="urlInput" placeholder="https://example.com" />
+        <select id="proxySelect" class="shrink" style="min-width:220px">
+          <option value="https://api.allorigins.win/raw?url={url}">AllOrigins (khuyến nghị)</option>
+          <option value="https://corsproxy.io/?url={url}">corsproxy.io</option>
+          <option value="custom">Custom proxy…</option>
+        </select>
+        <button id="fetchBtn" class="shrink">Lấy dữ liệu</button>
+      </div>
+      <div class="row hidden" id="customProxyRow" style="margin-top:8px">
+        <input type="text" id="customProxy" placeholder="https://your-proxy/?url={url}  (dùng {url} làm placeholder)" />
+      </div>
+      <div class="hint">
+        ⚠️ Trình duyệt chặn CORS khi fetch trực tiếp → cần proxy công khai.
+        Nếu proxy lỗi, chuyển sang tab <b>Paste HTML</b>, hoặc dùng nút <b>Copy DevTools Script</b> để chạy trực tiếp trên trang gốc (đầy đủ nhất).
+      </div>
+    </div>
+
+    <div id="modePaste" class="hidden">
+      <textarea id="pasteArea" placeholder="Dán HTML vào đây…"></textarea>
+      <div class="row" style="margin-top:8px">
+        <input type="url" id="pasteBaseUrl" placeholder="URL gốc (để resolve relative URLs) — vd: https://example.com/" />
+        <button id="parsePasteBtn" class="shrink">Phân tích</button>
+      </div>
+    </div>
   </div>
-  <h1>Ôn Tập &amp; Kiểm Tra<br><em>Giữa Kì 1 · Khối 11</em></h1>
-  <p class="hero-desc">
-    AI tự động tìm kiếm &amp; trích xuất câu hỏi từ OLM.vn, hiển thị đáp án đúng cho từng câu.
-  </p>
-  <div class="hero-url">
-    <span class="dot"></span>
-    <span id="urlDisplay">https://olm.vn/chu-de/on-tap-kiem-tra-giua-ki-1-khoi-11-nam-2026-2027-5217980936</span>
+
+  <div id="status"></div>
+
+  <div id="output" class="hidden">
+    <div class="note">
+      💡 Chế độ <b>static-parse</b> không có: Shadow DOM, nội dung iframe, localStorage/cookies, computed CSS variables, kích thước ảnh thật.
+      Để lấy đầy đủ → dùng nút <b>🧪 Copy DevTools Script</b> rồi paste vào Console của trang gốc.
+    </div>
+    <div class="panel">
+      <div class="actions">
+        <button id="copyHtmlBtn" class="secondary">📋 Copy HTML</button>
+        <button id="downloadHtmlBtn" class="secondary">💾 Tải HTML</button>
+        <button id="copyJsonBtn" class="secondary">📋 Copy JSON</button>
+        <button id="downloadJsonBtn" class="secondary">💾 Tải JSON</button>
+        <button id="copyConsoleBtn" class="secondary" title="Script chạy trong DevTools Console để lấy dữ liệu đầy đủ từ trang gốc">🧪 Copy DevTools Script</button>
+      </div>
+      <div class="tabs" id="tabs"></div>
+      <div id="tabContent"></div>
+    </div>
   </div>
-</section>
+</main>
 
-<!-- Status -->
-<div id="statusBanner">
-  <div class="spin" id="spinEl"></div>
-  <span id="statusMsg">Đang khởi tạo...</span>
-</div>
-
-<!-- Stats -->
-<div id="statsBar" class="visible" style="display:none">
-  <div class="stat-chip"><span class="chip-dot"></span>Tổng câu: <span class="chip-val" id="totalQ">—</span></div>
-  <div class="stat-chip"><span class="chip-dot" style="background:var(--green)"></span>Môn: <span class="chip-val" id="subjectS">—</span></div>
-  <div class="stat-chip"><span class="chip-dot" style="background:var(--cyan)"></span>Lớp: <span class="chip-val" id="gradeS">—</span></div>
-</div>
-
-<!-- Grid -->
-<div id="grid">
-  <div class="ph">
-    <div class="ph-icon">🔍</div>
-    <p class="ph-text">AI đang tìm kiếm đề bài…<br>Vui lòng chờ trong giây lát.</p>
-  </div>
-</div>
-
-<footer>OLM Đáp Án · Powered by Claude AI · Dữ liệu từ olm.vn &amp; nguồn công khai</footer>
+<!-- Script gốc để copy sang DevTools Console -->
+<script type="text/plain" id="devtoolsScript">
+(async () => {
+  const pick = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const uniq = (arr) => [...new Set(arr.filter(Boolean))];
+  const walkShadow = (root, out = []) => {
+    out.push(root);
+    root.querySelectorAll?.('*').forEach(el => { if (el.shadowRoot) walkShadow(el.shadowRoot, out); });
+    return out;
+  };
+  const shadowRoots = walkShadow(document);
+  const iframes = pick('iframe').map(f => {
+    try { const d = f.contentDocument; return d ? { src: f.src, html: d.documentElement.outerHTML } : { src: f.src, html: null, note: 'cross-origin' }; }
+    catch { return { src: f.src, html: null, note: 'blocked' }; }
+  });
+  const data = {
+    meta: { title: document.title, url: location.href, origin: location.origin, referrer: document.referrer, charset: document.characterSet, lang: document.documentElement.lang, doctype: document.doctype ? '<!DOCTYPE ' + document.doctype.name + '>' : null, readyState: document.readyState, extractedAt: new Date().toISOString() },
+    html: '<!DOCTYPE html>\n' + document.documentElement.outerHTML,
+    shadowDom: shadowRoots.map((root, i) => ({ source: i === 0 ? 'document' : 'shadow#' + i, host: root.host?.tagName || null, html: root.innerHTML || root.documentElement?.outerHTML || '' })),
+    iframes,
+    metaTags: pick('meta').map(m => ({ name: m.name || m.getAttribute('property') || m.getAttribute('http-equiv') || null, content: m.content, charset: m.charset || null })),
+    links: pick('link').map(l => ({ rel: l.rel, href: l.href, type: l.type || null, media: l.media || null, as: l.as || null, crossorigin: l.crossOrigin || null, integrity: l.integrity || null })),
+    scripts: pick('script').map(s => ({ src: s.src || '(inline)', type: s.type || 'classic', async: s.async, defer: s.defer, integrity: s.integrity || null, inline: s.src ? undefined : s.textContent })),
+    stylesheets: pick('link[rel="stylesheet"], link[rel="preload"][as="style"]').map(l => ({ href: l.href, media: l.media || 'all', rel: l.rel })),
+    inlineStyles: pick('style').map(s => ({ id: s.id || null, media: s.media || null, length: s.textContent.length, content: s.textContent })),
+    media: {
+      img: pick('img').map(i => ({ src: i.currentSrc || i.src, srcset: i.srcset || null, alt: i.alt, lazy: i.loading === 'lazy', w: i.naturalWidth, h: i.naturalHeight })),
+      picture: pick('picture source').map(s => ({ srcset: s.srcset, media: s.media, type: s.type })),
+      video: pick('video').map(v => ({ src: v.currentSrc || v.src, poster: v.poster, sources: pick('source', v).map(s => s.src) })),
+      audio: pick('audio').map(a => ({ src: a.currentSrc || a.src })),
+      svg: pick('svg').length, canvas: pick('canvas').length
+    },
+    fonts: pick('link[href*="font"], link[rel="preconnect"], link[rel="dns-prefetch"]').map(l => l.href),
+    icons: pick('link[rel*="icon"], link[rel="apple-touch-icon"], link[rel="manifest"]').map(l => ({ rel: l.rel, href: l.href, sizes: l.sizes?.value || null })),
+    forms: pick('form').map(f => ({ action: f.action, method: f.method, id: f.id, name: f.name, fields: pick('input, select, textarea, button', f).map(el => ({ tag: el.tagName.toLowerCase(), type: el.type, name: el.name, id: el.id, value: el.value })) })),
+    anchors: uniq(pick('a[href]').map(a => a.href)),
+    manifest: document.querySelector('link[rel="manifest"]')?.href || null,
+    storage: { cookies: document.cookie, localStorage: Object.fromEntries(Object.entries(localStorage)), sessionStorage: Object.fromEntries(Object.entries(sessionStorage)), indexedDB: (await indexedDB.databases?.().catch(() => [])) || [] },
+    performanceResources: performance.getEntriesByType('resource').map(r => ({ name: r.name, type: r.initiatorType, duration: Math.round(r.duration), size: r.transferSize })),
+    serviceWorkers: navigator.serviceWorker?.controller ? 'active' : 'none',
+    cssVariables: (() => { const cs = getComputedStyle(document.documentElement); const o = {}; for (let i = 0; i < cs.length; i++) { const p = cs[i]; if (p.startsWith('--')) o[p] = cs.getPropertyValue(p).trim(); } return o; })(),
+    stats: { totalElements: document.querySelectorAll('*').length, shadowRoots: shadowRoots.length - 1, iframes: iframes.length, scripts: pick('script').length, stylesheets: pick('link[rel="stylesheet"]').length, images: pick('img').length, forms: pick('form').length, anchors: pick('a').length }
+  };
+  const json = JSON.stringify(data, null, 2);
+  try { await navigator.clipboard.writeText(json); console.log('%c✅ Đã copy TẤT CẢ vào clipboard!', 'color:lime;font-weight:bold;font-size:14px'); }
+  catch { const b = new Blob([json], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'extract_' + Date.now() + '.json'; a.click(); }
+  window.__COPIED = data;
+  console.log('%c📦 Đã lưu vào window.__COPIED', 'color:cyan;font-weight:bold');
+  console.log(data);
+  return data;
+})();
+</script>
 
 <script>
-const TARGET_URL =
-  'https://olm.vn/chu-de/on-tap-kiem-tra-giua-ki-1-khoi-11-nam-2026-2027-5217980936?i_c=118948720121';
+(() => {
+  'use strict';
+  const $  = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
 
-// ── helpers ──────────────────────────────────────────────────────────────────
-const $ = id => document.getElementById(id);
-function esc(s){
-  return String(s||'')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function setStatus(msg, type='loading'){
-  const b=$('statusBanner');
-  b.className='';
-  b.classList.add('status-banner', type);
-  b.style.display='flex';
-  b.className=type;
-  $('spinEl').style.display= type==='loading'?'':'none';
-  $('statusMsg').textContent=msg;
-}
-function hideStatus(){ $('statusBanner').style.display='none'; }
+  const state = { mode:'url', currentTab:'html', data:null, rawHtml:'' };
 
-// ── render ───────────────────────────────────────────────────────────────────
-function renderQuiz(data){
-  const qs = data.questions||[];
-  const grid = $('grid');
-  grid.innerHTML='';
+  // ============== HELPERS ==============
+  const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-  if(!qs.length){
-    grid.innerHTML=`<div class="ph">
-      <div class="ph-icon">😕</div>
-      <p class="ph-text">Không tìm thấy câu hỏi. Thử <button class="nav-reload" style="margin-top:8px" onclick="runFetch()">↺ tải lại</button></p>
-    </div>`;
-    return;
+  function setStatus(type, html) {
+    const el = $('#status');
+    el.className = 'show ' + type;
+    el.innerHTML = html;
+  }
+  function clearStatus() { $('#status').className = ''; }
+
+  async function copyText(text, label) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus('success', `✅ Đã copy <b>${escapeHtml(label)}</b> vào clipboard (${text.length.toLocaleString()} ký tự)`);
+      setTimeout(clearStatus, 2500);
+    } catch (e) {
+      setStatus('error', '❌ Không copy được: ' + e.message);
+    }
   }
 
-  // stats
-  $('totalQ').textContent = qs.length;
-  $('subjectS').textContent = data.subject||'Toán';
-  $('gradeS').textContent   = data.grade||'11';
-  $('statsBar').style.display='flex';
-  $('statsBar').className='visible';
+  function download(filename, content, type) {
+    const blob = new Blob([content], { type });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
 
-  qs.forEach((q, i)=>{
-    const card = document.createElement('div');
-    card.className='qcard';
-    card.style.animationDelay=`${i*.03}s`;
+  function buildProxyUrl(proxy, targetUrl) {
+    return proxy.includes('{url}')
+      ? proxy.replace('{url}', encodeURIComponent(targetUrl))
+      : proxy + encodeURIComponent(targetUrl);
+  }
 
-    // type badge
-    const typeMap={
-      multiple_choice:['MC','badge-mc'],
-      true_false:['Đ/S','badge-tf'],
-      short_answer:['Điền','badge-sa']
-    };
-    const [bl, bc] = typeMap[q.type]||['?','badge-mc'];
+  // ============== MODE SWITCHING ==============
+  $$('.mode-tab').forEach(btn => btn.addEventListener('click', () => {
+    $$('.mode-tab').forEach(b => b.classList.toggle('active', b === btn));
+    state.mode = btn.dataset.mode;
+    $('#modeUrl').classList.toggle('hidden', state.mode !== 'url');
+    $('#modePaste').classList.toggle('hidden', state.mode !== 'paste');
+  }));
 
-    // header
-    let inner = `
-      <div class="qcard-top">
-        <div class="qnum">${q.id||i+1}</div>
-        <div>
-          <div class="qtext">${esc(q.text||'')}</div>
-          <span class="type-badge ${bc}" style="margin-top:6px;display:inline-block">${bl}</span>
-        </div>
-      </div>`;
-
-    // body
-    if(q.type==='multiple_choice' && Array.isArray(q.options)){
-      const opts = q.options.map(o=>{
-        const ok = o.letter===q.correct;
-        return `<div class="opt ${ok?'correct':'wrong'}">
-          <span class="opt-letter">${esc(o.letter)}</span>
-          <span>${esc(o.text)}</span>
-          ${ok?'<span class="tick">✓</span>':''}
-        </div>`;
-      }).join('');
-      inner += `<div class="opts">${opts}</div>`;
-    } else {
-      inner += `<div class="ans-block">
-        <div class="ans-label">ĐÁP ÁN ĐÚNG</div>
-        <div class="ans-val">${esc(q.correct||'')}</div>
-      </div>`;
-    }
-
-    if(q.explanation){
-      inner += `<div class="explain"><strong>Giải:</strong> ${esc(q.explanation)}</div>`;
-    }
-
-    card.innerHTML=inner;
-    grid.appendChild(card);
+  $('#proxySelect').addEventListener('change', e => {
+    $('#customProxyRow').classList.toggle('hidden', e.target.value !== 'custom');
   });
-}
 
-// ── fetch ─────────────────────────────────────────────────────────────────────
-async function runFetch(){
-  $('grid').innerHTML=`<div class="ph"><div class="ph-icon">🔍</div>
-    <p class="ph-text">AI đang tìm kiếm…</p></div>`;
-  $('statsBar').style.display='none';
-  setStatus('AI đang tìm kiếm đề bài trên web…','loading');
+  // ============== FETCH FROM URL ==============
+  $('#fetchBtn').addEventListener('click', async () => {
+    const url = $('#urlInput').value.trim();
+    if (!url) return setStatus('error', '❌ Vui lòng nhập URL');
 
-  const sys=`Bạn là trợ lý trích xuất câu hỏi và đáp án từ đề thi tiếng Việt.
-Nhiệm vụ: Tìm kiếm toàn bộ câu hỏi của đề thi này trên web và trả về JSON THUẦN (không markdown, không backtick).
+    let proxy = $('#proxySelect').value;
+    if (proxy === 'custom') proxy = $('#customProxy').value.trim();
+    if (!proxy) return setStatus('error', '❌ Vui lòng nhập proxy URL');
 
-Định dạng JSON bắt buộc:
-{
-  "title":"...",
-  "subject":"Toán",
-  "grade":"11",
-  "questions":[
-    {
-      "id":1,
-      "type":"multiple_choice",
-      "text":"Nội dung câu hỏi",
-      "options":[
-        {"letter":"A","text":"..."},
-        {"letter":"B","text":"..."},
-        {"letter":"C","text":"..."},
-        {"letter":"D","text":"..."}
-      ],
-      "correct":"B",
-      "explanation":"Lý do ngắn gọn (tuỳ chọn)"
+    const btn = $('#fetchBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Đang lấy…';
+    setStatus('info', '⏳ Đang fetch qua proxy…');
+
+    try {
+      const fetchUrl = buildProxyUrl(proxy, url);
+      const res = await fetch(fetchUrl);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const html = await res.text();
+      if (html.length < 100) throw new Error('Response quá ngắn — proxy có thể lỗi hoặc trang chặn');
+
+      processHtml(html, url);
+      setStatus('success', `✅ Đã lấy <b>${html.length.toLocaleString()}</b> ký tự HTML từ <code>${escapeHtml(url)}</code>`);
+    } catch (err) {
+      setStatus('error', `❌ Lỗi: ${escapeHtml(err.message)}.<br>💡 Thử proxy khác, hoặc dùng tab <b>Paste HTML</b>, hoặc <b>Copy DevTools Script</b>.`);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Lấy dữ liệu';
     }
-  ]
-}
-Loại câu: multiple_choice (options+correct=chữ cái), true_false (correct="Đúng"/"Sai"), short_answer (correct=giá trị).
-CHỈ TRẢ VỀ JSON THUẦN. Không có gì khác.`;
+  });
 
-  const usr=`Tìm và trích xuất TẤT CẢ câu hỏi + đáp án đúng từ: ${TARGET_URL}
-Dùng web_search để lấy nội dung đề. JSON thuần, không markdown.`;
+  // ============== PARSE PASTED HTML ==============
+  $('#parsePasteBtn').addEventListener('click', () => {
+    const html = $('#pasteArea').value.trim();
+    if (!html) return setStatus('error', '❌ Chưa paste HTML');
+    const baseUrl = $('#pasteBaseUrl').value.trim() || 'https://example.com/';
+    processHtml(html, baseUrl);
+    setStatus('success', `✅ Đã phân tích <b>${html.length.toLocaleString()}</b> ký tự`);
+  });
 
-  try{
-    const resp = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:4096,
-        system:sys,
-        tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{role:'user',content:usr}]
-      })
-    });
+  // ============== MAIN PROCESS ==============
+  function processHtml(html, baseUrl) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
 
-    if(!resp.ok){
-      const e=await resp.json().catch(()=>({}));
-      throw new Error(`API ${resp.status}: ${e.error?.message||'lỗi không xác định'}`);
+    // Inject/resolve <base> so relative URLs resolve against real target
+    const existing = doc.querySelector('base');
+    let resolvedBase = baseUrl;
+    if (existing && existing.getAttribute('href')) {
+      try { resolvedBase = new URL(existing.getAttribute('href'), baseUrl).href; } catch {}
     }
-
-    const d=await resp.json();
-    setStatus('Đang xử lý dữ liệu…','loading');
-
-    const raw=d.content.map(b=>b.type==='text'?b.text:'').join('\n').trim();
-
-    let quiz;
-    try{
-      const clean=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
-      const m=clean.match(/\{[\s\S]*\}/);
-      if(!m)throw new Error('Không có JSON');
-      quiz=JSON.parse(m[0]);
-    }catch(pe){
-      throw new Error('Không đọc được dữ liệu: '+pe.message);
+    let base = existing;
+    if (!base) {
+      base = doc.createElement('base');
+      (doc.head || doc.documentElement).prepend(base);
     }
+    try { base.href = resolvedBase; } catch {}
 
-    renderQuiz(quiz);
-    setStatus(`✓ Đã tải ${(quiz.questions||[]).length} câu hỏi thành công`,'success');
-    setTimeout(hideStatus,3000);
+    state.rawHtml = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+    state.data = extractData(doc, baseUrl, html);
 
-  }catch(err){
-    setStatus('⚠ '+err.message,'error');
-    $('grid').innerHTML=`<div class="ph">
-      <div class="ph-icon">😵</div>
-      <p class="ph-text">${esc(err.message)}<br><br>
-        <button class="nav-reload" onclick="runFetch()">↺ Thử lại</button>
-      </p></div>`;
+    $('#output').classList.remove('hidden');
+    renderTabs();
+    renderTab(state.currentTab);
   }
-}
 
-// auto-run
-runFetch();
+  // ============== EXTRACTION (adapted for static parsed DOM) ==============
+  function extractData(doc, url, originalHtml) {
+    const pick = (sel, root = doc) => [...root.querySelectorAll(sel)];
+    const uniq = arr => [...new Set(arr.filter(Boolean))];
+
+    return {
+      meta: {
+        title: doc.title || '',
+        url, charset: doc.characterSet || '',
+        lang: doc.documentElement.lang || '',
+        doctype: doc.doctype ? `<!DOCTYPE ${doc.doctype.name}>` : null,
+        extractedAt: new Date().toISOString(),
+        mode: 'static-parse',
+        originalSize: originalHtml.length
+      },
+      html: '<!DOCTYPE html>\n' + doc.documentElement.outerHTML,
+      iframes: pick('iframe').map(f => ({ src: f.src, note: 'static — không đọc được nội dung' })),
+      metaTags: pick('meta').map(m => ({
+        name: m.name || m.getAttribute('property') || m.getAttribute('http-equiv') || null,
+        content: m.content || null, charset: m.charset || null
+      })),
+      links: pick('link').map(l => ({
+        rel: l.rel, href: l.href, type: l.type || null, media: l.media || null,
+        as: l.as || null, crossorigin: l.crossOrigin || null, integrity: l.integrity || null
+      })),
+      scripts: pick('script').map(s => ({
+        src: s.src || '(inline)', type: s.type || 'classic',
+        async: s.async, defer: s.defer,
+        integrity: s.integrity || null, crossorigin: s.crossOrigin || null,
+        inlineSize: s.src ? 0 : s.textContent.length,
+        inline: s.src ? undefined : s.textContent
+      })),
+      stylesheets: pick('link[rel="stylesheet"], link[rel="preload"][as="style"]').map(l => ({
+        href: l.href, media: l.media || 'all', rel: l.rel
+      })),
+      inlineStyles: pick('style').map(s => ({
+        id: s.id || null, media: s.media || null, length: s.textContent.length, content: s.textContent
+      })),
+      media: {
+        img: pick('img').map(i => ({ src: i.currentSrc || i.src, srcset: i.srcset || null, alt: i.alt || '', lazy: i.loading === 'lazy' })),
+        picture: pick('picture source').map(s => ({ srcset: s.srcset, media: s.media, type: s.type })),
+        video: pick('video').map(v => ({ src: v.currentSrc || v.src, poster: v.poster, sources: pick('source', v).map(s => s.src) })),
+        audio: pick('audio').map(a => ({ src: a.currentSrc || a.src })),
+        svg: pick('svg').length,
+        canvas: pick('canvas').length
+      },
+      fonts: pick('link[href*="font"], link[rel="preconnect"], link[rel="dns-prefetch"]').map(l => l.href),
+      icons: pick('link[rel*="icon"], link[rel="apple-touch-icon"], link[rel="manifest"]').map(l => ({ rel: l.rel, href: l.href, sizes: l.sizes?.value || null })),
+      forms: pick('form').map(f => ({
+        action: f.action, method: f.method, id: f.id, name: f.name,
+        fields: pick('input, select, textarea, button', f).map(el => ({
+          tag: el.tagName.toLowerCase(), type: el.type, name: el.name, id: el.id
+        }))
+      })),
+      anchors: uniq(pick('a[href]').map(a => a.href)),
+      manifest: doc.querySelector('link[rel="manifest"]')?.href || null,
+      stats: {
+        totalElements: doc.querySelectorAll('*').length,
+        scripts: pick('script').length,
+        externalScripts: pick('script[src]').length,
+        inlineScripts: pick('script:not([src])').length,
+        stylesheets: pick('link[rel="stylesheet"]').length,
+        inlineStyles: pick('style').length,
+        images: pick('img').length,
+        forms: pick('form').length,
+        anchors: pick('a').length,
+        iframes: pick('iframe').length,
+        svgs: pick('svg').length
+      }
+    };
+  }
+
+  // ============== TABS ==============
+  const TABS = [
+    { id:'html',  label:'📄 HTML' },
+    { id:'json',  label:'🗂️ JSON' },
+    { id:'js',    label:'⚙️ JS URLs' },
+    { id:'css',   label:'🎨 CSS URLs' },
+    { id:'img',   label:'🖼️ Images' },
+    { id:'all',   label:'🔗 All URLs' },
+    { id:'stats', label:'📊 Stats' }
+  ];
+
+  function renderTabs() {
+    const d = state.data;
+    const counts = {
+      js:  d.scripts.filter(s => s.src !== '(inline)').length,
+      css: d.stylesheets.length,
+      img: d.media.img.length,
+      all: d.anchors.length
+    };
+    $('#tabs').innerHTML = TABS.map(t => {
+      const c = counts[t.id];
+      return `<button class="tab ${state.currentTab === t.id ? 'active' : ''}" data-tab="${t.id}">${t.label}${c !== undefined ? `<span class="count">${c}</span>` : ''}</button>`;
+    }).join('');
+    $$('.tab').forEach(t => t.addEventListener('click', () => {
+      state.currentTab = t.dataset.tab;
+      $$('.tab').forEach(x => x.classList.toggle('active', x === t));
+      renderTab(state.currentTab);
+    }));
+  }
+
+  function renderTab(id) {
+    const d = state.data;
+    const el = $('#tabContent');
+    const MAX_RENDER = 500_000; // tránh treo browser
+
+    const renderPre = (text, name) => {
+      if (text.length > MAX_RENDER) {
+        el.innerHTML = `<div class="note">⚠️ Nội dung ${name} quá lớn (${text.length.toLocaleString()} ký tự) — chỉ hiển thị ${MAX_RENDER.toLocaleString()} ký tự đầu. Dùng nút <b>Tải</b> để lấy toàn bộ.</div><pre>${escapeHtml(text.slice(0, MAX_RENDER))}…</pre>`;
+      } else {
+        el.innerHTML = `<pre>${escapeHtml(text)}</pre>`;
+      }
+    };
+
+    if (id === 'html') {
+      renderPre(state.rawHtml, 'HTML');
+    } else if (id === 'json') {
+      renderPre(JSON.stringify(d, null, 2), 'JSON');
+    } else if (id === 'js') {
+      const list = d.scripts.filter(s => s.src !== '(inline)').map(s => s.src);
+      el.innerHTML = list.length ? `<pre>${escapeHtml(list.join('\n'))}</pre>` : `<p style="color:var(--muted)">Không có external JS nào.</p>`;
+    } else if (id === 'css') {
+      const list = d.stylesheets.map(s => s.href);
+      el.innerHTML = list.length ? `<pre>${escapeHtml(list.join('\n'))}</pre>` : `<p style="color:var(--muted)">Không có CSS nào.</p>`;
+    } else if (id === 'img') {
+      const list = d.media.img.map(i => i.src);
+      el.innerHTML = list.length ? `<pre>${escapeHtml(list.join('\n'))}</pre>` : `<p style="color:var(--muted)">Không có ảnh nào.</p>`;
+    } else if (id === 'all') {
+      const all = [
+        ...d.scripts.map(s => s.src).filter(s => s && s !== '(inline)'),
+        ...d.stylesheets.map(s => s.href),
+        ...d.media.img.map(i => i.src),
+        ...d.media.video.map(v => v.src),
+        ...d.media.audio.map(a => a.src),
+        ...d.fonts,
+        ...d.icons.map(i => i.href),
+        ...(d.manifest ? [d.manifest] : []),
+        ...d.anchors
+      ];
+      const uniqAll = [...new Set(all.filter(Boolean))];
+      renderPre(uniqAll.join('\n'), 'All URLs');
+    } else if (id === 'stats') {
+      const s = d.stats;
+      const items = [
+        ['Tổng elements', s.totalElements],
+        ['Scripts (total)', s.scripts],
+        ['Scripts external', s.externalScripts],
+        ['Scripts inline', s.inlineScripts],
+        ['Stylesheets', s.stylesheets],
+        ['Inline styles', s.inlineStyles],
+        ['Images', s.images],
+        ['Forms', s.forms],
+        ['Anchors', s.anchors],
+        ['Iframes', s.iframes],
+        ['SVGs', s.svgs]
+      ];
+      el.innerHTML = `<div class="stats-grid">${items.map(([k, v]) =>
+        `<div class="stat-card"><div class="label">${escapeHtml(k)}</div><div class="value">${v}</div></div>`
+      ).join('')}</div>`;
+    }
+  }
+
+  // ============== ACTION BUTTONS ==============
+  function safeTitle() {
+    return (state.data?.meta.title || 'page').replace(/[\\/:*?"<>|]/g, '_').slice(0, 80);
+  }
+
+  $('#copyHtmlBtn').addEventListener('click', () => copyText(state.rawHtml, 'HTML'));
+  $('#downloadHtmlBtn').addEventListener('click', () => {
+    download(safeTitle() + '.html', state.rawHtml, 'text/html;charset=utf-8');
+  });
+
+  $('#copyJsonBtn').addEventListener('click', () => copyText(JSON.stringify(state.data, null, 2), 'JSON'));
+  $('#downloadJsonBtn').addEventListener('click', () => {
+    download(safeTitle() + '.json', JSON.stringify(state.data, null, 2), 'application/json');
+  });
+
+  $('#copyConsoleBtn').addEventListener('click', () => {
+    const script = document.getElementById('devtoolsScript').textContent.trim();
+    copyText(script, 'DevTools script');
+  });
+
+  // Prefill demo URL
+  $('#urlInput').value = '';
+})();
 </script>
 </body>
 </html>
